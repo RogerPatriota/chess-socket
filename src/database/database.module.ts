@@ -1,7 +1,7 @@
 import { Global, Module } from "@nestjs/common";
 import { db } from "./connection";
 
-const DB_PROVIDER = 'DB_PROVIDER'
+export const DB_PROVIDER = 'DB_PROVIDER'
 
 @Global()
 @Module({

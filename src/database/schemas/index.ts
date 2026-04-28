@@ -1,3 +1,6 @@
+import { games } from "./game.schema";
 
 
-export const schemas = {}
+export const schemas = {
+    games,
+}

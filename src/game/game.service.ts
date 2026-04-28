@@ -10,15 +10,21 @@ export class GameService {
         private readonly gameRepository: IGameRepository
     ) {}
 
-    createGame(data: CreateGameDto) {
+    async getGames() {
+        const games = await this.gameRepository.findGames();
+
+        return games;
+    }
+
+    async createGame(data: CreateGameDto) {
         const chess = new Chess();
 
         const game = new Game(data.whitePlayerId, data.blackPlayerId);
-        game.initial_fen = chess.fen();
-        game.current_fen = chess.fen();
+        game.initialFen = chess.fen();
+        game.currentFen = chess.fen();
 
-        this.gameRepository.createGame(game);
+        const newGame = await this.gameRepository.createGame(game);
 
-        return game;
+        return newGame;
     }
 }

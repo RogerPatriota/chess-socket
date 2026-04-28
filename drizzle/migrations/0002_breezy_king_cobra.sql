@@ -1,0 +1,1 @@
+ALTER TABLE "game" RENAME COLUMN "updatedAt" TO "updated_at";

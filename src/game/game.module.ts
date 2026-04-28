@@ -13,6 +13,6 @@ import { GameRepository } from './game.repository';
       useClass: GameRepository
     },
     GameService
-  ]
+  ],
 })
 export class GameModule {}

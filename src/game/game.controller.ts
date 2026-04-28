@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateGameDto } from './dto/create.game.dto';
 import { GameService } from './game.service';
 
@@ -8,9 +8,16 @@ export class GameController {
         private readonly gameService: GameService
     ) {}
 
+    @Get()
+    async getGames() {
+        const games = await this.gameService.getGames();
+        return games;
+    }
+
     @Post()
-    createGame(@Body() data: CreateGameDto) {
-        const game = this.gameService.createGame(data);
+    async createGame(@Body() data: CreateGameDto) {
+        const game = await this.gameService.createGame(data);
+        
         return game
     }
 }

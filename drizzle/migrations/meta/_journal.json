@@ -1,1 +1,27 @@
-{"version":"7","dialect":"postgresql","entries":[]}
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1777413027318,
+      "tag": "0000_numerous_star_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777414599249,
+      "tag": "0001_lazy_krista_starr",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777415526829,
+      "tag": "0002_breezy_king_cobra",
+      "breakpoints": true
+    }
+  ]
+}
