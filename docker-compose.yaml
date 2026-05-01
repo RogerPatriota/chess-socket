@@ -7,3 +7,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - '${POSTGRES_PORT}:5432'
+  
+  redis:
+    image: redis
+    ports:
+      - '${REDIS_PORT}:6379'
