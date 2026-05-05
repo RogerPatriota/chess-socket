@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { CreateGameDto } from './dto/create.game.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { CreateGameDto } from './types/dto/create.game.dto';
 import { Chess } from 'chess.js';
 import { Game } from './domain/game.entity';
 import { IGameRepository } from './domain/game.repo.interface';
+import { GameCacheRepository } from './interface/game.cache.repository';
+import { CACHE_PROVIDER } from 'src/shared/cache/cache.module';
 
 @Injectable()
 export class GameService {
     constructor(
-        private readonly gameRepository: IGameRepository
+        private readonly gameRepository: IGameRepository,
+        private readonly gameCacheRepository: GameCacheRepository
     ) {}
 
     async getGames() {
@@ -25,6 +28,23 @@ export class GameService {
 
         const newGame = await this.gameRepository.createGame(game);
 
-        return newGame;
+        try {
+            await this.gameCacheRepository.saveGame({
+                id: newGame.id!,
+                fen: newGame.currentFen,
+                status: newGame.status,
+                version: 1,
+                blackPlayerId: newGame.blackPlayerId!,
+                whitePlayerId: newGame.whitePlayerId!,
+                turn: 'w',
+                clockWhite: newGame.clockWhite,
+                clockBlack: newGame.clockBlack,
+                updateAt: new Date().toISOString(),
+            });
+        } catch (error) {
+            console.error('falied to fill redis game state', error);
+        }
+
+        return newGame
     }
 }

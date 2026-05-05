@@ -1,0 +1,6 @@
+DATABASE_URL=postgresql://chess_user:chess_password@localhost:5432/chess
+POSTGRES_DB=chess
+POSTGRES_USER=chess_user
+POSTGRES_PASSWORD=chess_password
+POSTGRES_PORT=5432
+REDIS_PORT=6379

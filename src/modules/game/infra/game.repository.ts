@@ -1,6 +1,6 @@
 import { Inject } from "@nestjs/common";
-import { Game } from "./domain/game.entity";
-import { IGameRepository } from "./domain/game.repo.interface";
+import { Game } from "../domain/game.entity";
+import { IGameRepository } from "../domain/game.repo.interface";
 import { DB_PROVIDER } from "src/shared/database/database.module";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { games } from "src/shared/database/schemas/game.schema";

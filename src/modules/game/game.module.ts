@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { GameController } from './game.controller';
+import { GameController } from './interface/game.controller';
 import { GameService } from './game.service';
 import { IGameRepository } from './domain/game.repo.interface';
-import { GameRepository } from './game.repository';
+import { GameRepository } from './infra/game.repository';
+import { GameGateway } from './interface/game.gateway';
+import { GameCacheRepository } from './interface/game.cache.repository';
 
 
 @Module({
@@ -12,7 +14,9 @@ import { GameRepository } from './game.repository';
       provide: IGameRepository,
       useClass: GameRepository
     },
-    GameService
+    GameGateway,
+    GameService,
+    GameCacheRepository
   ],
 })
 export class GameModule {}
