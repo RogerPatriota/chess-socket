@@ -4,7 +4,7 @@ import { GameService } from './game.service';
 import { IGameRepository } from './domain/game.repo.interface';
 import { GameRepository } from './infra/game.repository';
 import { GameGateway } from './interface/game.gateway';
-import { GameCacheRepository } from './interface/game.cache.repository';
+import { GameCacheRepository } from './infra/game.cache.repository';
 
 
 @Module({

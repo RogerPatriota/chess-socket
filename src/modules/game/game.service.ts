@@ -3,7 +3,7 @@ import { CreateGameDto } from './types/dto/create.game.dto';
 import { Chess } from 'chess.js';
 import { Game } from './domain/game.entity';
 import { IGameRepository } from './domain/game.repo.interface';
-import { GameCacheRepository } from './interface/game.cache.repository';
+import { GameCacheRepository } from './infra/game.cache.repository';
 import { CACHE_PROVIDER } from 'src/shared/cache/cache.module';
 
 @Injectable()
