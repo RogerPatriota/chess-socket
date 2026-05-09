@@ -3,8 +3,8 @@ import {  pgTable, uuid, timestamp, text, numeric, integer} from "drizzle-orm/pg
 
 export const games = pgTable('game', {
     id: uuid('id').primaryKey().defaultRandom(),
-    whitePlayerId: uuid('white_player_id').notNull(),
-    blackPlayerId: uuid('black_player_id').notNull(),
+    whitePlayerId: uuid('white_player_id'),
+    blackPlayerId: uuid('black_player_id'),
     status: text('status').default('new'),
     initialFen: text('initial_fen').notNull(),
     currentFen: text('current_fen').notNull(),
