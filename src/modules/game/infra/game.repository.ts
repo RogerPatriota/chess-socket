@@ -1,4 +1,5 @@
 import { Inject } from "@nestjs/common";
+import { eq } from "drizzle-orm";
 import { Game } from "../domain/game.entity";
 import { IGameRepository } from "../domain/game.repo.interface";
 import { DB_PROVIDER } from "src/shared/database/database.module";
@@ -20,7 +21,9 @@ export class GameRepository implements IGameRepository {
     }
 
     async findGameById(id: string): Promise<Game | undefined> {
-        throw new Error("Method not implemented.");
+        const result = await this.db.select().from(games).where(eq(games.id, id)).limit(1);
+        
+        return result[0] as Game;
     }
 
     async createGame(entity: Game): Promise<Game> {

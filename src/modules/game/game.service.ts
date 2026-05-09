@@ -5,6 +5,7 @@ import { Game } from './domain/game.entity';
 import { IGameRepository } from './domain/game.repo.interface';
 import { GameCacheRepository } from './infra/game.cache.repository';
 import { CACHE_PROVIDER } from 'src/shared/cache/cache.module';
+import { GameCache } from './types/game.cache';
 
 @Injectable()
 export class GameService {
@@ -17,6 +18,36 @@ export class GameService {
         const games = await this.gameRepository.findGames();
 
         return games;
+    }
+
+    async getGameById(id: string) {
+        const gameCache = await this.gameCacheRepository.getGamesById(id);
+
+        if (!gameCache || Object.keys(gameCache).length === 0) {
+            const game = await this.gameRepository.findGameById(id);
+
+            if (!game) {
+                return null
+            } 
+
+            const cacheData: GameCache = {
+                id: game.id!,
+                status: game.status,
+                fen: game.currentFen,
+                version: 1, 
+                blackPlayerId: game.blackPlayerId || "",
+                whitePlayerId: game.whitePlayerId || "",
+                turn: game.currentFen.split(' ')[1] as 'w' | 'b',
+                clockWhite: game.clockWhite,
+                clockBlack: game.clockBlack,
+                updateAt: game.updatedAt?.toISOString() || new Date().toISOString()
+            };
+
+            await this.gameCacheRepository.saveGame(cacheData);
+            return game;
+        }
+
+        return gameCache;
     }
 
     async createGame(data: CreateGameDto) {

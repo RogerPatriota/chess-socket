@@ -10,16 +10,22 @@ export class GameCacheRepository {
         private readonly redis: RedisClientType
     ) { }
 
+    async getGamesById(id: string): Promise<Record<string, string> | null> {
+        const key = `game:${id}:state` as RedisArgument
+
+        return await this.redis.hGetAll(key) || null;
+    }
+
     async saveGame(game: GameCache): Promise<void> {
         const keyRedis = `game:${game.id}:state` as RedisArgument
 
-        await this.redis.hSet(keyRedis, {
+        const payload = {
             gameId: game.id,
             status: game.status,
             fen: game.fen,
             version: String(game.version),
-            blackPlayerId: game.blackPlayerId,
-            whitePlayerId: game.whitePlayerId,
+            blackPlayerId: game.blackPlayerId ? String(game.blackPlayerId) : "",
+            whitePlayerId: game.whitePlayerId ? String(game.whitePlayerId) : "",
             turn: game.turn,
             lastMoveSan: game.lastMoveSan ?? "",
             lastMoveBy: game.lastMoveBy ?? "",
@@ -27,7 +33,9 @@ export class GameCacheRepository {
             clockWhite: String(game.clockWhite),
             clockBlack: String(game.clockBlack),
             updateAt: game.updateAt
-        } as Record<string, string>)
+        } as Record<string, string>;
+
+        await this.redis.hSet(keyRedis, payload)
 
         await this.redis.expire(keyRedis, 60 * 5) // 5 minutes
     }
